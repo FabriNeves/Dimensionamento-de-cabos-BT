@@ -1,0 +1,206 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: whitesmoke;   
+}
+
+header {
+    /* position: sticky; */
+    top: 0px;
+    background: #BBBBBB;
+    padding: 20px 0;
+}
+
+
+.containerHeader {   
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 940px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo span {
+    margin-left: 10px;
+    font-weight: 600;
+    padding: 15px;
+    border-left: 1px dotted rgba(0, 0, 0, 0.205);
+}
+
+nav {
+    display: flex;
+}
+
+
+nav li {
+    display: inline;
+}
+
+nav a {
+    width: 40%;
+    padding: 10px 20px;
+    margin: 0 10px;
+    background: orange;
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;   
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, .5);
+    transition: 0.2s all;
+    cursor: pointer;
+}
+
+nav a:hover {
+    color: white;
+}
+
+main {
+    width: 940px;
+    margin: 0 auto;
+}
+
+h2 {
+    margin: 1em auto;
+    font-size: 22px;
+    font-weight: 300;
+}
+
+p {
+    margin: 1em 0;
+    line-height: 1.5em;
+}
+
+.tipoDeInstalacao {
+    transition: all 2s;
+}
+
+input {
+    width: 100px;
+    height: 17px;
+    padding: 3px;
+    border: solid 1px black;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px black;
+}
+
+#secaoReta_quedaDeTensao{
+    background:  lightgreen;
+}
+
+#selecaoMaterial,
+#selecaoIsolacao,
+#selecaoIsolacao,
+#selecaoMetodo,
+#localInsta,
+#numeroDeCircuitos {
+    width: 100px;
+    padding: 3px;
+    border: solid 1px black;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px black;
+}
+
+#nCondutores,
+#ReferenciasAgrupamentoCircuitos {
+    margin: 1em 0;
+    padding: 3px;
+    border: solid 1px black;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px black;
+}
+table{
+    margin: 0 auto;
+    border: 2px solid black;    
+    box-shadow: 1px 1px 2px black;
+    background: lightgray;
+}
+
+th,td {
+    border: 1px solid black;
+    padding: 0 2px 0 2px;
+}
+
+info {
+    color: royalblue;
+}
+.labelTitulo { 
+    display: block;
+    margin: 0.5em 0;
+}
+
+.aviso {
+    color: red;
+    font-size: small;
+    font-weight: 200;
+
+}
+
+.MetodosGMD {    
+    border: solid 0.5px black;
+    border-radius: 5px;  
+    
+}
+
+button {
+    background: MediumSeaGreen;
+    width: 200px;
+    height: 40px;
+    font-size: 22px;
+    display: block;
+    text-align: center;
+    margin: 50px auto;
+    padding: 3px;
+    border: solid 1px SeaGreen;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px black;
+      
+    
+}
+
+button:hover {
+    background: LightGreen;
+    font-size: 23px;
+}
+
+button:active{
+    transform: scale(1.1);
+}
+
+@media screen and (max-width: 480px) {
+    body{
+        width: 100%;
+    }
+    p,h1,h2,h3{
+        text-align: center;
+    }
+    #nCondutores,#ReferenciasAgrupamentoCircuitos{
+        width: 100%;
+    }
+    .conteinerLabelQDT{
+        position: relative;
+        left: 20%;
+    }
+    .part1 {
+        text-align: center;
+    }
+    .imagem{
+        text-align: center;
+    }
+    .containerNumeroDeCirc{
+        text-align: center;
+    }
+    .conteinerCorrecaoTemp{
+        text-align: center;
+    }
+    .especialLabel{
+        display: block;
+        text-align: center;        
+    }    
+}
