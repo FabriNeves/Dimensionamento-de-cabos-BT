@@ -49,12 +49,13 @@ nav a {
     background: orange;
     color: black;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 14px;
     border: none;
-    border-radius: 5px;   
+    border-radius: 5px;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, .5);
     transition: 0.2s all;
     cursor: pointer;
+    font-weight: bold;
 }
 
 nav a:hover {
