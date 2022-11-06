@@ -1,6 +1,6 @@
 body {
     font-family: 'Montserrat', sans-serif;
-    background: whitesmoke;   
+    background: whitesmoke;
 }
 
 header {
@@ -10,8 +10,59 @@ header {
     padding: 20px 0;
 }
 
+/* Início novo HEADER para teste */
 
-.containerHeader {   
+.header {
+  width: auto;
+  height: 72px;
+  left: 0px;
+  top: 0px;
+  box-shadow: 0px 0px 1px 0px #a0a0a0;
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+}
+
+.header > .logo {
+  width: auto;
+  height: 40px;
+  left: 123px;
+  padding: 16px 0;
+  cursor: pointer;
+}
+
+.navegacao {
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.navegacao > div {
+    width: 70px;
+    height: 100%;
+}
+
+.navegacao > div:hover {
+    box-shadow: inset 0 -4px 0px 0px red;
+}
+
+.navegacao > div > a {
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navegacao > div > a:hover {color: brown;}
+/* Fim novo HEADER para teste */
+
+.containerHeader {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -21,12 +72,12 @@ header {
     margin: 0 auto;
 }
 
-.logo {
+.containerLogo {
     display: flex;
     align-items: center;
 }
 
-.logo span {
+.containerLogo span {
     margin-left: 10px;
     font-weight: 600;
     padding: 15px;
@@ -63,8 +114,8 @@ nav a:hover {
 }
 
 main {
-    width: 940px;
-    margin: 0 auto;
+  width: 940px;
+  margin: 0 auto;
 }
 
 h2 {
@@ -118,7 +169,7 @@ input {
 }
 table{
     margin: 0 auto;
-    border: 2px solid black;    
+    border: 2px solid black;
     box-shadow: 1px 1px 2px black;
     background: lightgray;
 }
@@ -131,7 +182,7 @@ th,td {
 info {
     color: royalblue;
 }
-.labelTitulo { 
+.labelTitulo {
     display: block;
     margin: 0.5em 0;
 }
@@ -143,10 +194,10 @@ info {
 
 }
 
-.MetodosGMD {    
+.MetodosGMD {
     border: solid 0.5px black;
-    border-radius: 5px;  
-    
+    border-radius: 5px;
+
 }
 
 button {
@@ -161,8 +212,8 @@ button {
     border: solid 1px SeaGreen;
     border-radius: 2px;
     box-shadow: 1px 1px 2px black;
-      
-    
+
+
 }
 
 button:hover {
@@ -202,6 +253,6 @@ button:active{
     }
     .especialLabel{
         display: block;
-        text-align: center;        
-    }    
+        text-align: center;
+    }
 }

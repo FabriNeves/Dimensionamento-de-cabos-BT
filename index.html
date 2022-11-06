@@ -13,9 +13,9 @@
 </head>
 
 <body>
-    <header>
+    <!-- <header>
         <div class="containerHeader">
-            <div class="logo">
+            <div class="containerLogo">
                 <h1><img src="./imagens/logo.png"></h1>
                 <span>Dimensionador de Cabos BT</span>
             </div>
@@ -27,7 +27,24 @@
                 </ul>
             </nav>
         </div>
-    </header>
+    </header> -->
+    <div class="header">
+      <img class="logo" src="./imagens/logo4.png" alt="Logo">
+      <div class="navegacao">
+        <div>
+          <a href="index.html">Home</a>
+        </div>
+        <div>
+          <a href="">Saiba mais</a>
+        </div>
+        <div>
+          <a href="">Contato</a>
+        </div>
+        <div>
+          <a href="">Sobre Nós</a>
+        </div>
+      </div>
+    </div>
     <main>
         <div class="part1">
             <h2>Corrente de Projeto</h2>
@@ -201,14 +218,14 @@
                 <p class="aviso"> * Deve ser usado o mesmo valor utilizado em "Distância entre eixos".<br>Valor
                     padrão
                     para 200mm<br>
-                    Referência :<br> Quadro geral até ponto de entrega : 5% <br> Circuitos terminais : 4% <br> Subestação e grupo geradores : 7% 
+                    Referência :<br> Quadro geral até ponto de entrega : 5% <br> Circuitos terminais : 4% <br> Subestação e grupo geradores : 7%
                 </p>
             </div>
             <div class="conteinerLabelQDT">
                 <label for="_gmd" class="labelTitulo">GMD</label>
 
                 <input type="number" id="_gmd" value="251.984" class="input-padrao">
-            </div>            
+            </div>
             <button id="botao3">Calcular Δv%</button>
             <p class="resultado3">
                 ...
