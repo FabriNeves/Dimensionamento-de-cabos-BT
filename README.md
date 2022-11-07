@@ -24,3 +24,5 @@ Free for fun
 
 
 ### Página antiga: [:toilet:](https://fasn0w.github.io/CalculoDeCabosBT/)
+
+// Modificação apenas para aprendizado...
