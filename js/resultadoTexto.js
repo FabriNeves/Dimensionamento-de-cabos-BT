@@ -1,5 +1,6 @@
 
 export const textoFormatado = `
+<h2> Resumo </h2>
 <table border="1">
     <tr>
         <th>Corrente de Projeto </th>
