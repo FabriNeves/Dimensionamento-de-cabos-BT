@@ -63,7 +63,7 @@ export const MudarSelecao = {
     }
   },
   changeSelect: function (obj, elemento) {
-    elemento.options.length = 0;
+    elemento.options.length = 0; // zera as opções 
     const chaves = Object.keys(obj);
     chaves.forEach((key, index) => {
       // .substring(0,1)
