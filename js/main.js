@@ -26,14 +26,14 @@ const secaoReta_quedaDeTensao = document.querySelector("#secaoReta_quedaDeTensao
 
 
 
-import { opcaoParaABCD, opcaoParaE, opcaoParaF, opcaoParaG } from "./html.js";
+//import { opcaoParaABCD, opcaoParaE, opcaoParaF, opcaoParaG } from "./html.js";
 import { indiceMetodosA_D, indiceMetodosE_G, procuraCondutorCorrespondente } from "./tabelasMetodosABCEFG.js";
 import { tabela_AgrupamentoDeCircuitos } from "./agrupamentoDeCircuitos.js"
 import { correcaoDeTemperatura } from "./FatorTempTabelas.js";
 import { MainFuncaoCalculoDeQueda, quedaDeTensaoPorcento, secoesRetasDisponiveis } from "./funcoesDeQuedaDeTensao.js";
 import { retornaDiametroDoCondutor } from "./diametroCondutor.js";
 import { retornaOPrimeiroValorMaior_e } from "./percorrerListasMetodo.js";
-import {MudarSelecao} from "./nCondutores.js";
+import { MudarSelecao } from "./nCondutores.js";
 
 
 function calcularSecaoCabo(correnteProjeto) {
@@ -123,23 +123,19 @@ botao.onclick = function () {
 
 metodoInstalacao.onchange = function () {
     if (0 <= indiceMetodosA_D.indexOf(metodoInstalacao.value)) {
-        MudarSelecao.changeSelect(MudarSelecao.opcaoParaABCD,numeroCondutores);
-        //tipoDeinstalcao.innerHTML = opcaoParaABCD;        
+        MudarSelecao.changeSelect(MudarSelecao.opcaoParaABCD,numeroCondutores);               
         numeroCondutores = document.querySelector("#nCondutores");
     }
     if (metodoInstalacao.value === "E") {
-        MudarSelecao.changeSelect(MudarSelecao.opcaoParaE,numeroCondutores);
-        //tipoDeinstalcao.innerHTML = opcaoParaE;
+        MudarSelecao.changeSelect(MudarSelecao.opcaoParaE,numeroCondutores);       
         numeroCondutores = document.querySelector("#nCondutores");
     }
     if (metodoInstalacao.value === "F") {
-        MudarSelecao.changeSelect(MudarSelecao.opcaoParaF,numeroCondutores);
-        //tipoDeinstalcao.innerHTML = opcaoParaF;
+        MudarSelecao.changeSelect(MudarSelecao.opcaoParaF,numeroCondutores);        
         numeroCondutores = document.querySelector("#nCondutores");
     }
     if (metodoInstalacao.value === "G") {
-        MudarSelecao.changeSelect(MudarSelecao.opcaoParaG,numeroCondutores);
-        //tipoDeinstalcao.innerHTML = opcaoParaG;
+        MudarSelecao.changeSelect(MudarSelecao.opcaoParaG,numeroCondutores);        
         numeroCondutores = document.querySelector("#nCondutores");
     }
 

@@ -48,7 +48,7 @@
     <main>
         <div class="part1">
             <h2>Descrição</h2>
-            <p>Pagina feita em HTML e Javascript visa tentar automatizar a escolhas de condutores de baixa tensão
+            <p>Pagina feita em HTML e Javascript visa automatizar as escolhas de condutores de baixa tensão
                 baseados na NBR5410</p>
             <h2>Corrente de Projeto</h2>
             <!-- <p>Corrente de projeto (In) é calculada considerando apenas a potência instalada.</p> -->
@@ -58,7 +58,8 @@
                 <label for="correnteDeProjeto"> A </label>
             </div>
             <h2>Método de instalação</h2>
-            <p>Para saber mais sobre metôdos de instalação(tabela 33). <a target="_blank" href="./nbr5410/NBR 05410 - 2005 - Instalacoes Eletricas de Baixa Tensao.pdf">Clique aqui</a></p>
+            <p>Para saber mais sobre metôdos de instalação(tabela 33). <a target="_blank"
+                    href="./nbr5410/NBR 05410 - 2005 - Instalacoes Eletricas de Baixa Tensao.pdf">Clique aqui</a></p>
             <fieldset>
                 <select name="Metodo" id="selecaoMetodo">
                     <option value="A1">A1</option>
@@ -136,16 +137,20 @@
         <div class="conteinerAgrupamentoCircuitos">
             <h2>Agrupamento de circuitos </h2>
             <p class="aviso">Existem outros metodos de calculo de agrupamento de circuitos descritos na NBR5410</p>
-            <label for="ReferenciasAgrupamentoCircuitos" class="especialLabel">Selecione referência :</label>
-            <select name="ReferenciaAgrupamentoCircuitos" id="ReferenciasAgrupamentoCircuitos">
-                <option value="Ref1">Em feixe: ao ar livre ou sobre superfície; embutidos; em conduto fechado | Métodos
-                    A até F</option>
-                <option value="Ref2">Camada única sobre parede, piso ou em bandeja não perfurada ou prateleira | Método
-                    C</option>
-                <option value="Ref3">Camada única no teto | Método C</option>
-                <option value="Ref4">Camada única em bandeja perfurada | Método F</option>
-                <option value="Ref5">Camada única sobre leito, suporte, etc.| Método F</option>
-            </select>
+            <fieldset>
+                <label for="ReferenciasAgrupamentoCircuitos" class="especialLabel">Selecione referência :</label>
+                <select name="ReferenciaAgrupamentoCircuitos" id="ReferenciasAgrupamentoCircuitos">
+                    <option value="Ref1">Em feixe: ao ar livre ou sobre superfície; embutidos; em conduto fechado |
+                        Métodos
+                        A até F</option>
+                    <option value="Ref2">Camada única sobre parede, piso ou em bandeja não perfurada ou prateleira |
+                        Método
+                        C</option>
+                    <option value="Ref3">Camada única no teto | Método C</option>
+                    <option value="Ref4">Camada única em bandeja perfurada | Método F</option>
+                    <option value="Ref5">Camada única sobre leito, suporte, etc.| Método F</option>
+                </select>
+            </fieldset>
             <br>
             <div class="containerNumeroDeCirc">
                 <label for="numeroDeCircuitos">Numero de Circuitos : </label>
@@ -165,7 +170,7 @@
                 </select>
             </div>
             <button id="calcularGeral">Calcular</button>
-            <p class="resultado">...</p>
+            <p class="resultado"></p>
             <p class="aviso">* Observar Seção Mínima dos Condutores</p>
         </div>
         <div class="containerQuedaDetensao">
@@ -173,37 +178,41 @@
             <h2> Cálculo de Queda de Tensão </h2>
 
             <div class="conteinerLabelQDT">
+
                 <label for="secaoReta_quedaDeTensao" class="labelTitulo">Seção reta :</label>
-
-                <input type="number" id="secaoReta_quedaDeTensao" value="50" class="input-padrao" min="0.5" max="630">
-
-                <label for="secaoReta_quedaDeTensao">mm²</label>
-
+                <div>
+                    <input type="number" id="secaoReta_quedaDeTensao" value="50" class="input-padrao" min="0.5"
+                        max="630">
+                    <label for="secaoReta_quedaDeTensao">mm²</label>
+                </div>
 
                 <label for="tensaoNominal" class="labelTitulo">Tensão nominal da instalação :</label>
-
-                <input type="number" id="tensaoNominal" value="220" class="input-padrao" min="1.5" max="1000">
-                <label for="tensaoNominal">V</label>
+                <div>
+                    <input type="number" id="tensaoNominal" value="220" class="input-padrao" min="1.5" max="1000">
+                    <label for="tensaoNominal">V</label>
+                </div>
 
                 <label for="comprimento_Circuito" class="labelTitulo">Comprimento circuito :</label>
-
-                <input type="number" id="comprimento_Circuito" value="200" class="input-padrao">
-                <label for="comprimento_Circuito">(Metros)</label>
+                <div>
+                    <input type="number" id="comprimento_Circuito" value="200" class="input-padrao">
+                    <label for="comprimento_Circuito">(Metros)</label>
+                </div>
 
                 <label for="diametro_Condutor" class="labelTitulo">Diâmetro do condutor :</label>
-
-                <input type="number" id="diametro_Condutor" value="9.2" class="input-padrao">
-                <label for="diametro_Condutor">(mm)</label>
+                <div>
+                    <input type="number" id="diametro_Condutor" value="9.2" class="input-padrao">
+                    <label for="diametro_Condutor">(mm)</label>
+                </div>
             </div>
             <p class="aviso">* Diâmetro gerado automaticamente , para mais precisão consultar a tabela de cabos
                 do
                 fabricante. </p>
             <div class="conteinerLabelQDT">
                 <label for="distancia_Entre_Eixos" class="labelTitulo">Distância entre eixos :</label>
-
-                <input type="number" id="distancia_Entre_Eixos" value="200" class="input-padrao">
-                <label for="distancia_Entre_Eixos">(mm)</label>
-
+                <div>
+                    <input type="number" id="distancia_Entre_Eixos" value="200" class="input-padrao">
+                    <label for="distancia_Entre_Eixos">(mm)</label>
+                </div>
                 <label for="cosPhi" class="labelTitulo">Cos φ :</label>
 
                 <input type="number" id="cosPhi" value="0.95" class="input-padrao">
