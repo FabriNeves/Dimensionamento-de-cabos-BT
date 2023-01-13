@@ -120,8 +120,10 @@ nav a:hover {
 }
 */
 main {
-  /* width: 940px; */
+    /* Habilitei temporariamente */
+  width: 940px;  
   margin: 0 auto;
+
 }
 
 h2 {

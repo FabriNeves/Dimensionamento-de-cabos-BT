@@ -33,6 +33,7 @@ import { correcaoDeTemperatura } from "./FatorTempTabelas.js";
 import { MainFuncaoCalculoDeQueda, quedaDeTensaoPorcento, secoesRetasDisponiveis } from "./funcoesDeQuedaDeTensao.js";
 import { retornaDiametroDoCondutor } from "./diametroCondutor.js";
 import { retornaOPrimeiroValorMaior_e } from "./percorrerListasMetodo.js";
+import {MudarSelecao} from "./nCondutores.js";
 
 
 function calcularSecaoCabo(correnteProjeto) {
@@ -122,19 +123,23 @@ botao.onclick = function () {
 
 metodoInstalacao.onchange = function () {
     if (0 <= indiceMetodosA_D.indexOf(metodoInstalacao.value)) {
-        tipoDeinstalcao.innerHTML = opcaoParaABCD;
+        MudarSelecao.changeSelect(MudarSelecao.opcaoParaABCD,numeroCondutores);
+        //tipoDeinstalcao.innerHTML = opcaoParaABCD;        
         numeroCondutores = document.querySelector("#nCondutores");
     }
     if (metodoInstalacao.value === "E") {
-        tipoDeinstalcao.innerHTML = opcaoParaE;
+        MudarSelecao.changeSelect(MudarSelecao.opcaoParaE,numeroCondutores);
+        //tipoDeinstalcao.innerHTML = opcaoParaE;
         numeroCondutores = document.querySelector("#nCondutores");
     }
     if (metodoInstalacao.value === "F") {
-        tipoDeinstalcao.innerHTML = opcaoParaF;
+        MudarSelecao.changeSelect(MudarSelecao.opcaoParaF,numeroCondutores);
+        //tipoDeinstalcao.innerHTML = opcaoParaF;
         numeroCondutores = document.querySelector("#nCondutores");
     }
     if (metodoInstalacao.value === "G") {
-        tipoDeinstalcao.innerHTML = opcaoParaG;
+        MudarSelecao.changeSelect(MudarSelecao.opcaoParaG,numeroCondutores);
+        //tipoDeinstalcao.innerHTML = opcaoParaG;
         numeroCondutores = document.querySelector("#nCondutores");
     }
 
