@@ -56,60 +56,8 @@ function calcularSecaoCabo(correnteProjeto) {
     a = a / fatorDeCorrecao;
 
     const result = procuraCondutorCorrespondente(a, b, c, d, e);
-    const resultadoTexto = `
-    <table>
-        <tr>
-            <th>Corrente de Projeto </th>
-            <th>
-                <info>${correnteProjeto}A</info>
-            </th>
-        </tr>
-        <tr>
-            <th>Método de Instalação</th>
-            <th>
-                <info>${metodoInstalacao.value}</info>
-            </th>
-        </tr>
-        <tr>
-            <th>Material Condutor </th>
-            <th>
-                <info>${materialCondutorSelecionado.value}</info>
-            </th>
-        </tr>
-        <tr>
-            <th>Material de Isolação </th>
-            <th>
-                <info>${materialIsolacao.value}</info>
-            </th>
-        </tr>
-        <tr>
-            <th>Número de Condutores Carregados </th>
-            <th>
-                <info>${numeroCondutores.value.substring(0, 1)}</info>
-            </th>
-        </tr>
-        <tr>
-            <th>Para temperatura do<info> ${localInstalacaoAmb.value} </info>de <info>
-                    ${correcaoTemp.value}ºC</info>
-            </th>
-            <th>
-                <info> ${valorCorrecao} </info>
-            </th>
-        </tr>
-        <tr>
-            <th>Fator de agrupamento de circuitos</th>
-            <th>
-                <info> ${fatorDeCorrecao}</info>
-            </th>
-        </tr>
-        <tr>
-            <th>Seção reta do Condutor</th>
-            <th>
-                <info> ${result}mm²</info>
-            </th>
-        </tr>
-    </table>
-    `;
+    const resultadoTexto = criarTabela(correnteProjeto, metodoInstalacao.value, materialCondutorSelecionado.value, materialIsolacao.value, numeroCondutores.value, correcaoTemp.value, localInstalacaoAmb.value,valorCorrecao, fatorDeCorrecao, result);
+    
     diametro_Condutor_.value = retornaDiametroDoCondutor(result).toFixed(2); //Valor Aproximado 
     return [result, resultadoTexto];
 }
@@ -179,3 +127,18 @@ function CalculaQuedaDeTensao() {
     return "<p class='Resultado'>Queda de tensão de :<info>" + quedaDeTensaoPorcento(resultado, tensaoNominal.value).toFixed(2) + "%</info>"+" <br> Distância :<info>"+d+"</info> Km" + "<br>Corrente de Projeto de <info>: " +c+"</info> A";
 
 }
+
+
+function criarTabela(correnteProjeto, metodoInstalacao, materialCondutorSelecionado, materialIsolacao, numeroCondutores, correcaoTemp, localInstalacaoAmb,valorCorrecao, fatorDeCorrecao, result) {
+    let tabela = '<table>';
+    tabela += `<tr><th>Corrente de Projeto</th><th><info>${correnteProjeto}A</info></th></tr>`;
+    tabela += `<tr><th>Método de Instalação</th><th><info>${metodoInstalacao}</info></th></tr>`;
+    tabela += `<tr><th>Material Condutor</th><th><info>${materialCondutorSelecionado}</info></th></tr>`;
+    tabela += `<tr><th>Material de Isolação</th><th><info>${materialIsolacao}</info></th></tr>`;
+    tabela += `<tr><th>Número de Condutores Carregados</th><th><info>${numeroCondutores.substring(0, 1)}</info></th></tr>`;
+    tabela += `<tr><th>Para temperatura do <info>${localInstalacaoAmb}</info> de <info>${correcaoTemp}ºC</info></th><th><info>${valorCorrecao}</info></th></tr>`;
+    tabela += `<tr><th>Fator de agrupamento de circuitos</th><th><info>${fatorDeCorrecao}</info></th></tr>`;
+    tabela += `<tr><th>Seção reta do Condutor</th><th><info>${result}mm²</info></th></tr>`;
+    tabela += '</table>';
+    return tabela;
+  }
