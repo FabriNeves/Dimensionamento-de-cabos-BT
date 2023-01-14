@@ -66,6 +66,13 @@ header {
   transition: all 1s;
   opacity: 1;
 }
+
+footer {
+
+    background-image:linear-gradient(whitesmoke, rgb(192, 192, 192));
+    height: 100px;
+    text-align: center;
+}
 /* Fim novo HEADER para teste */
 /*
 .containerHeader {
@@ -208,6 +215,10 @@ info {
     border: solid 0.5px black;
     border-radius: 5px;
 
+}
+
+.imagem{
+    text-align: center;
 }
 
 button {
