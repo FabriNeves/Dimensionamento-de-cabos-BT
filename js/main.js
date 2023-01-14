@@ -57,7 +57,7 @@ function calcularSecaoCabo(correnteProjeto) {
 
     const result = procuraCondutorCorrespondente(a, b, c, d, e);
     const resultadoTexto = criarTabela(correnteProjeto, metodoInstalacao.value, materialCondutorSelecionado.value, materialIsolacao.value, numeroCondutores.value, correcaoTemp.value, localInstalacaoAmb.value,valorCorrecao, fatorDeCorrecao, result);
-    
+
     diametro_Condutor_.value = retornaDiametroDoCondutor(result).toFixed(2); //Valor Aproximado 
     return [result, resultadoTexto];
 }
@@ -124,8 +124,8 @@ function CalculaQuedaDeTensao() {
     //console.log(a, b, c, d, e, f, g, h, i, j);
 
     const resultado = MainFuncaoCalculoDeQueda(a, b, c, d, e, f, g, h, i, j);
-    return "<p class='Resultado'>Queda de tensão de :<info>" + quedaDeTensaoPorcento(resultado, tensaoNominal.value).toFixed(2) + "%</info>"+" <br> Distância :<info>"+d+"</info> Km" + "<br>Corrente de Projeto de <info>: " +c+"</info> A";
-
+    //return "<p class='Resultado'>Queda de tensão de :<info>" + quedaDeTensaoPorcento(resultado, tensaoNominal.value).toFixed(2) + "%</info>"+" <br> Distância :<info>"+d+"</info> Km" + "<br>Corrente de Projeto de <info>: " +c+"</info> A";
+    return criarTabelaQuedaTensao(resultado,tensaoNominal.value,d,c);
 }
 
 
@@ -142,3 +142,13 @@ function criarTabela(correnteProjeto, metodoInstalacao, materialCondutorSelecion
     tabela += '</table>';
     return tabela;
   }
+
+function criarTabelaQuedaTensao (resultado,tensaoNominal,d,c) {
+    let tabela = '<table>';
+    tabela += `<tr><th>Queda de tensão </th><th><info>${quedaDeTensaoPorcento(resultado, tensaoNominal).toFixed(2)}%</info></th></tr>`;
+    tabela += `<tr><th>Distância</th><th><info>${d*1000} m</info></th></tr>`;
+    tabela += `<tr><th>Corrente de Projeto</th><th><info>${c}A</info></th></tr>`;   
+    tabela += '</table>';
+    return tabela; 
+}
+  
