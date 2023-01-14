@@ -140,7 +140,7 @@ h2 {
 }
 
 p {
-    margin: 1em 0;
+    margin: 1em;
     line-height: 1.5em;
 }
 
@@ -211,13 +211,14 @@ info {
 
 }
 
-.MetodosGMD {
+/* .MetodosGMD {
     border: solid 0.5px black;
     border-radius: 5px;
 
-}
+} */
 
-.imagem{
+.imagem img{
+    width: 450px;
     text-align: center;
 }
 
@@ -250,7 +251,11 @@ button:active{
     body{
         width: 100%;
     }
-    p,h1,h2,h3,fieldset{
+    p{
+        margin: 1em 10%;
+        text-align: center;
+    }
+    h1,h2,h3,fieldset{
         text-align: center;
     }
     #nCondutores,#ReferenciasAgrupamentoCircuitos{
@@ -269,7 +274,8 @@ button:active{
     .part1 {
         text-align: center;
     }
-    .imagem{
+    .imagem img{
+        width: 90%;
         text-align: center;
     }
     .containerNumeroDeCirc{
