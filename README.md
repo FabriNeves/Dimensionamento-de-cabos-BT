@@ -10,7 +10,7 @@ Material utilizado como base pode ser acessado por este [link](https://br.prysmi
 - JAVASCRIPT
 
 ## 🚧 Status do Projeto 
-:construction: Projeto em construção :construction:
+Finalizado!
 
 ## :hammer: Funcionalidades do Projeto:
 -`Seleciona o condutor correspondente com a corrente de projeto.`
@@ -18,8 +18,6 @@ Material utilizado como base pode ser acessado por este [link](https://br.prysmi
 
 ## Versão 1.0.0
 
-## 📔 Licença 
-Free for fun 
 
 
 ## Colaboradores :trident:

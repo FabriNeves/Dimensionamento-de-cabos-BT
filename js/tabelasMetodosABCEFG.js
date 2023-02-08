@@ -2051,7 +2051,7 @@ function extrairLista(tabela, coluna, metodoSelec) {
     return listTemp;
 }
 
-//extrairLista("tabela_EPR_COBRE","s");
+console.log(extrairLista("tabela_EPR_COBRE","A22n"));
 
 export function retornalistaColuna(metodo, materialCondutor, materialIsolacao, numeroCondutoresModo) {
     const tabela = `tabela_${materialIsolacao}_${materialCondutor}`;
@@ -2072,6 +2072,4 @@ export function procuraCondutorCorrespondente(correnteProjeto, metodo, materialC
 //console.log(procuraCondutorCorrespondente(250,"A2","COBRE","EPR","2n"));
 //console.log(procuraCondutorCorrespondente(300,"A1","AL","EPR","2n"));
 //console.log(procuraCondutorCorrespondente(400, "F", "COBRE", "PVC", "3T"));
-
-
 
