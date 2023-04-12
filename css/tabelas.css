@@ -1,9 +1,13 @@
 body {
-    width: 800px;
+    width: 1000px;
     margin: 0 auto;
+    font-size: 20px; /* altere o valor conforme necessário */
+    font-family: "Helvetica Neue", sans-serif; /* altere a fonte conforme necessário */
   }
+
   
-table {
+  
+  table {
     border-collapse: collapse;
     width: 100%;
     margin-bottom: 1rem;
@@ -12,17 +16,17 @@ table {
   table,
   th,
   td {
-    border: 1px solid black;
+    border: 1px solid #d2d2d2;
   }
   
   th,
   td {
-    padding: 0.5rem;
+    padding: 1rem;
     text-align: left;
   }
   
   th {
-    background-color: #ccc;
+    background-color: #f8f8f8;
   }
   
   tr:nth-child(even) {
