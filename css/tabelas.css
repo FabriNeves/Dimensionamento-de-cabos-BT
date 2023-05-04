@@ -1,0 +1,64 @@
+body {
+    width: 1000px;
+    margin: 0 auto;
+    font-size: 20px; /* altere o valor conforme necessário */
+    font-family: "Helvetica Neue", sans-serif; /* altere a fonte conforme necessário */
+  }
+  .button {
+    display: inline-block;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 24px;
+    text-decoration: none;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .button:hover {
+    background-color: #3e8e41;
+  }
+  
+  
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  table,
+  th,
+  td {
+    border: 1px solid #d2d2d2;
+  }
+  
+  th,
+  td {
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f8f8f8;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  @media screen and (max-width: 767px) {
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    td {
+      min-width: 100px;
+    }
+  }
+  
