@@ -2050,28 +2050,28 @@ for (let index = 0; index < chaves.length; index++) {
 }
 
 function formataTabela(objeto, chave) {
-    const tabela = [];
+    const tabela = {};
 
     Object.keys(objeto).forEach((key) => {
         const { s, ...resto } = objeto[key];
-        const valores = [];
+        const valores = {};
         let count = 0;
+        const newObj = {};
 
         for (let i = 0; i < Object.values(resto).length; i += 2) {
             const valor = Object.values(resto)[i];
             const valor2 = Object.values(resto)[i + 1];
             const metodo = indiceMetodosA_D[count];
-            valores.push({
-                [metodo]: {
+            valores[metodo] = {
                     '2': valor,
                     '3': valor2
-                }
-            });
+                };
+            
             count++;
         }
 
-        const newObj = { [s]: valores };
-        tabela.push(newObj);
+        //newObj[s]= valores ;
+        tabela[s]= valores;
     });
 
     const nomeArquivo = chave + '.json';
