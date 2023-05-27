@@ -2035,71 +2035,57 @@ const tabelasEFG = {
     ]
 }
 
-const { notEqual } = require('assert');
+
+const indiceMetodosA_D = ['A1', 'A2', 'B1', 'B2', 'C', 'D'];
+
 const fs = require('fs');
 
-const novoObjeto = {};
-
 const chaves = Object.keys(tabelasA_D);
-console.log(chaves);
 
 for (let index = 0; index < chaves.length; index++) {
     const chave = chaves[index];
     const objeto = tabelasA_D[chave];
-    
-    formataTabela(objeto,chave);
-   
 
+    formataTabela(objeto, chave);
 }
 
-
-function formataTabela (objeto,chave){
-
+function formataTabela(objeto, chave) {
     const tabela = [];
 
     Object.keys(objeto).forEach((key) => {
         const { s, ...resto } = objeto[key];
         const valores = [];
-        Object.values(resto).forEach((valor) => {
-            valores.push(valor);
-        });
-        const newObj = { [s] : valores };
-        // console.log(newObj);
+        let count = 0;
+
+        for (let i = 0; i < Object.values(resto).length; i += 2) {
+            const valor = Object.values(resto)[i];
+            const valor2 = Object.values(resto)[i + 1];
+            const metodo = indiceMetodosA_D[count];
+            valores.push({
+                [metodo]: {
+                    '2': valor,
+                    '3': valor2
+                }
+            });
+            count++;
+        }
+
+        const newObj = { [s]: valores };
         tabela.push(newObj);
     });
 
     const nomeArquivo = chave + '.json';
-    //console.log(nomeArquivo);
-    //console.log(tabela);
-    salvaArquivo(tabela,nomeArquivo);
-
+    salvaArquivo(tabela, nomeArquivo);
 }
 
+function salvaArquivo(tabela, nomeArquivo) {
+    const json = JSON.stringify(tabela, null, 2);
 
-
-function salvaArquivo (tabela,nomeArquivo) {
-
-    const json = JSON.stringify(tabela, null, 2); 
-
-    // Salva Arquivo
-    
     fs.writeFile(nomeArquivo, json, 'utf8', (err) => {
         if (err) {
-          console.error(`Erro ao salvar o arquivo ${nomeArquivo}:`, err);
-          return;
+            console.error(`Erro ao salvar o arquivo ${nomeArquivo}:`, err);
+            return;
         }
         console.log(`Arquivo ${nomeArquivo} salvo com sucesso!`);
     });
 }
-
-// const json = JSON.stringify(novoObjeto, null, 2); 
-
-// fs.writeFile('saida.json', json, 'utf8', (err) => {
-//   if (err) {
-//     console.error('Erro ao salvar o arquivo:', err);
-//     return;
-//   }
-//   console.log('Arquivo salvo com sucesso!');
-// });
-
-

@@ -2051,7 +2051,7 @@ function extrairLista(tabela, coluna, metodoSelec) {
     return listTemp;
 }
 
-console.log(extrairLista("tabela_EPR_COBRE","A22n"));
+//console.log(extrairLista("tabela_EPR_COBRE","A22n"));
 
 export function retornalistaColuna(metodo, materialCondutor, materialIsolacao, numeroCondutoresModo) {
     const tabela = `tabela_${materialIsolacao}_${materialCondutor}`;
