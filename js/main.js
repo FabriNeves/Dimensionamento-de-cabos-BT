@@ -1,154 +1,113 @@
+// Ponto de entrada da página: lê os campos do formulário, chama a lógica de
+// cálculo (js/logica/) e escreve o resultado formatado na tela (js/ui/).
 
-// Extrair variaveis do |HTML 
-const correnteProjeto = document.querySelector("#correnteDeProjeto");
-const metodoInstalacao = document.querySelector("#selecaoMetodo");
-const materialCondutorSelecionado = document.querySelector("#selecaoMaterial");
-const materialIsolacao = document.querySelector("#selecaoIsolacao");
-const tipoDeinstalcao = document.querySelector(".tipoDeInstalacao");
-let numeroCondutores = document.querySelector("#nCondutores");
-const localInstalacaoAmb = document.querySelector("#localInsta");
-const correcaoTemp = document.querySelector("#correcaoTemp");
-const referenciaDeAgrupamentos = document.querySelector("#ReferenciasAgrupamentoCircuitos");
-const NCicuitos = document.querySelector("#numeroDeCircuitos");
-const botao = document.querySelector("#calcularGeral");
-const resultado = document.querySelector(".resultado");
+import { indiceMetodosA_D } from "./dados/tabelaCondutores.js";
+import { procuraCondutorCorrespondente } from "./logica/selecaoDeCondutor.js";
+import { tabelaAgrupamentoDeCircuitos } from "./dados/tabelaAgrupamentoCircuitos.js";
+import { correcaoDeTemperatura } from "./logica/correcaoTemperatura.js";
+import { MainFuncaoCalculoDeQueda, secoesRetasDisponiveis } from "./logica/quedaDeTensao.js";
+import { retornaDiametroDoCondutor } from "./logica/diametroCondutor.js";
+import { retornaOPrimeiroValorMaior_e } from "./logica/buscaBinaria.js";
+import { opcoesPorMetodo, preencherOpcoesNumeroDeCondutores } from "./ui/opcoesNumeroDeCondutores.js";
+import { criarTabelaSecaoCondutor, criarTabelaQuedaTensao } from "./ui/tabelaResultados.js";
 
-const tensaoNominal = document.querySelector("#tensaoNominal");
-const comprimentoDoCircuito_ = document.querySelector("#comprimento_Circuito");
-const diametro_Condutor_ = document.querySelector("#diametro_Condutor");
-const distancia_Entre_Eixos_ = document.querySelector("#distancia_Entre_Eixos");
-const cossenoPhi = document.querySelector("#cosPhi");
-const _gmd = document.querySelector("#_gmd");
-const botao3 = document.querySelector("#botao3");
-const resultado3 = document.querySelector(".resultado3");
+// --- Campos do formulário: seleção de seção do condutor ---
+const inputCorrenteProjeto = document.querySelector("#correnteDeProjeto");
+const selectMetodoInstalacao = document.querySelector("#selecaoMetodo");
+const selectMaterialCondutor = document.querySelector("#selecaoMaterial");
+const selectMaterialIsolacao = document.querySelector("#selecaoIsolacao");
+let selectNumeroCondutores = document.querySelector("#nCondutores");
+const selectLocalInstalacao = document.querySelector("#localInsta");
+const inputTemperatura = document.querySelector("#correcaoTemp");
+const selectReferenciaAgrupamento = document.querySelector("#ReferenciasAgrupamentoCircuitos");
+const selectNumeroDeCircuitos = document.querySelector("#numeroDeCircuitos");
+const botaoCalcularSecao = document.querySelector("#calcularGeral");
+const divResultadoSecao = document.querySelector(".resultado");
 
-const secaoReta_quedaDeTensao = document.querySelector("#secaoReta_quedaDeTensao")
+// --- Campos do formulário: queda de tensão ---
+const inputSecaoReta = document.querySelector("#secaoReta_quedaDeTensao");
+const inputTensaoNominal = document.querySelector("#tensaoNominal");
+const inputComprimentoCircuito = document.querySelector("#comprimento_Circuito");
+const inputDiametroCondutor = document.querySelector("#diametro_Condutor");
+const inputDistanciaEntreEixos = document.querySelector("#distancia_Entre_Eixos");
+const inputCosPhi = document.querySelector("#cosPhi");
+const inputGmd = document.querySelector("#_gmd");
+const botaoCalcularQuedaTensao = document.querySelector("#botao3");
+const divResultadoQuedaTensao = document.querySelector(".resultado3");
 
+/**
+ * Calcula a seção do condutor (mm²) a partir da corrente de projeto,
+ * aplicando as correções de temperatura e de agrupamento de circuitos.
+ * @returns {[string, string]} [secaoDoCondutor, tabelaHtmlDeResultado]
+ */
+function calcularSecaoCabo(correnteProjetoAmpere) {
+    const metodoInstalacaoValor = selectMetodoInstalacao.value;
+    const materialCondutorValor = selectMaterialCondutor.value;
+    const materialIsolacaoValor = selectMaterialIsolacao.value;
+    const numeroCondutoresValor = selectNumeroCondutores.value;
 
+    const fatorCorrecaoTemperatura = correcaoDeTemperatura(inputTemperatura.value * 1, selectLocalInstalacao.value, selectMaterialIsolacao.value);
+    const fatorCorrecaoAgrupamento = tabelaAgrupamentoDeCircuitos[selectReferenciaAgrupamento.value][selectNumeroDeCircuitos.value - 1];
 
-//import { opcaoParaABCD, opcaoParaE, opcaoParaF, opcaoParaG } from "./html.js";
-import { indiceMetodosA_D, indiceMetodosE_G, procuraCondutorCorrespondente } from "./tabelasMetodosABCEFG.js";
-import { tabela_AgrupamentoDeCircuitos } from "./agrupamentoDeCircuitos.js"
-import { correcaoDeTemperatura } from "./FatorTempTabelas.js";
-import { MainFuncaoCalculoDeQueda, quedaDeTensaoPorcento, secoesRetasDisponiveis } from "./funcoesDeQuedaDeTensao.js";
-import { retornaDiametroDoCondutor } from "./diametroCondutor.js";
-import { retornaOPrimeiroValorMaior_e } from "./percorrerListasMetodo.js";
-import { MudarSelecao } from "./nCondutores.js";
+    const correnteCorrigida = (correnteProjetoAmpere / fatorCorrecaoTemperatura) / fatorCorrecaoAgrupamento;
 
+    const secaoDoCondutor = procuraCondutorCorrespondente(correnteCorrigida, metodoInstalacaoValor, materialCondutorValor, materialIsolacaoValor, numeroCondutoresValor);
+    const tabelaHtml = criarTabelaSecaoCondutor(correnteProjetoAmpere, metodoInstalacaoValor, materialCondutorValor, materialIsolacaoValor, numeroCondutoresValor, inputTemperatura.value, selectLocalInstalacao.value, fatorCorrecaoTemperatura, fatorCorrecaoAgrupamento, secaoDoCondutor);
 
-function calcularSecaoCabo(correnteProjeto) {
-    // Variaveis para calcular seção do cabo 
-    let a = correnteProjeto
-    const b = metodoInstalacao.value;
-    const c = materialCondutorSelecionado.value;
-    const d = materialIsolacao.value;
-    const e = numeroCondutores.value;
+    inputDiametroCondutor.value = retornaDiametroDoCondutor(secaoDoCondutor).toFixed(2); // valor aproximado
 
-    // Aplicação da correção de temperatura
-    const valorCorrecao = correcaoDeTemperatura(correcaoTemp.value * 1, localInstalacaoAmb.value, materialIsolacao.value);
-    a = a / valorCorrecao;
-    correnteCorrigida = a;
-
-    //Aplicação da correção por agrupamento de condutores 
-    const ref = referenciaDeAgrupamentos.value;
-    const nCirc = NCicuitos.value;
-    const fatorDeCorrecao = tabela_AgrupamentoDeCircuitos[ref][nCirc - 1];
-    a = a / fatorDeCorrecao;
-
-    const result = procuraCondutorCorrespondente(a, b, c, d, e);
-    const resultadoTexto = criarTabela(correnteProjeto, metodoInstalacao.value, materialCondutorSelecionado.value, materialIsolacao.value, numeroCondutores.value, correcaoTemp.value, localInstalacaoAmb.value,valorCorrecao, fatorDeCorrecao, result);
-
-    diametro_Condutor_.value = retornaDiametroDoCondutor(result).toFixed(2); //Valor Aproximado 
-    return [result, resultadoTexto];
+    return [secaoDoCondutor, tabelaHtml];
 }
 
-botao.onclick = function () {
-    secaoReta_resultado = calcularSecaoCabo(correnteProjeto.value);
-    console.log(secaoReta_resultado);
-    secaoReta_quedaDeTensao.value = secaoReta_resultado[0];
-    resultado.innerHTML = secaoReta_resultado[1];
-}
+botaoCalcularSecao.onclick = function () {
+    const [secaoDoCondutor, tabelaHtml] = calcularSecaoCabo(inputCorrenteProjeto.value);
+    inputSecaoReta.value = secaoDoCondutor;
+    divResultadoSecao.innerHTML = tabelaHtml;
+};
 
-metodoInstalacao.onchange = function () {
-    if (0 <= indiceMetodosA_D.indexOf(metodoInstalacao.value)) {
-        MudarSelecao.changeSelect(MudarSelecao.opcaoParaABCD,numeroCondutores);               
-        numeroCondutores = document.querySelector("#nCondutores");
+// Ao trocar o método de instalação, as opções de "número de condutores
+// carregados" mudam: A-D compartilham um conjunto, E/F/G têm o seu próprio.
+selectMetodoInstalacao.onchange = function () {
+    const metodo = selectMetodoInstalacao.value;
+    if (indiceMetodosA_D.indexOf(metodo) >= 0) {
+        preencherOpcoesNumeroDeCondutores(opcoesPorMetodo.ABCD, selectNumeroCondutores);
+    } else if (metodo === "E") {
+        preencherOpcoesNumeroDeCondutores(opcoesPorMetodo.E, selectNumeroCondutores);
+    } else if (metodo === "F") {
+        preencherOpcoesNumeroDeCondutores(opcoesPorMetodo.F, selectNumeroCondutores);
+    } else if (metodo === "G") {
+        preencherOpcoesNumeroDeCondutores(opcoesPorMetodo.G, selectNumeroCondutores);
     }
-    if (metodoInstalacao.value === "E") {
-        MudarSelecao.changeSelect(MudarSelecao.opcaoParaE,numeroCondutores);       
-        numeroCondutores = document.querySelector("#nCondutores");
-    }
-    if (metodoInstalacao.value === "F") {
-        MudarSelecao.changeSelect(MudarSelecao.opcaoParaF,numeroCondutores);        
-        numeroCondutores = document.querySelector("#nCondutores");
-    }
-    if (metodoInstalacao.value === "G") {
-        MudarSelecao.changeSelect(MudarSelecao.opcaoParaG,numeroCondutores);        
-        numeroCondutores = document.querySelector("#nCondutores");
-    }
+    selectNumeroCondutores = document.querySelector("#nCondutores");
+};
 
-}
+botaoCalcularQuedaTensao.onclick = function () {
+    const secaoMaisProxima = retornaOPrimeiroValorMaior_e(Number(inputSecaoReta.value), secoesRetasDisponiveis[selectMaterialCondutor.value]);
+    inputSecaoReta.value = secaoMaisProxima === false ? 0.5 : secaoMaisProxima;
+    divResultadoQuedaTensao.innerHTML = calcularQuedaDeTensao();
+};
 
-/*
-botao2.onclick = function () {
-    
-    resultado2.textContent = calcularSecaoCabo(correcaoNumeroCirc)[1];
-}
-*/
-botao3.onclick = function () {
-    const val = retornaOPrimeiroValorMaior_e(Number(secaoReta_quedaDeTensao.value), secoesRetasDisponiveis[materialCondutorSelecionado.value]);
-    (val == false) ? val = 0.5 : "";
-    secaoReta_quedaDeTensao.value = val;
-    resultado3.innerHTML = CalculaQuedaDeTensao()
-}
+inputSecaoReta.onchange = function () {
+    inputDiametroCondutor.value = retornaDiametroDoCondutor(inputSecaoReta.value).toFixed(2); // valor aproximado
+};
 
-secaoReta_quedaDeTensao.onchange = function () {
-    diametro_Condutor_.value = retornaDiametroDoCondutor(secaoReta_quedaDeTensao.value).toFixed(2); //Valor Aproximado 
-}
-
-function CalculaQuedaDeTensao() {
-    const a = String(materialCondutorSelecionado.value);
-    const b = Number(cossenoPhi.value);
-    const c = Number(correnteProjeto.value);
-    const d = Number(comprimentoDoCircuito_.value) / 1000;
-    const e = Number(numeroCondutores.value.substring(0, 1));
-    const f = String(materialIsolacao.value);
-    const g = Number(secaoReta_quedaDeTensao.value);
-    if (g === 0) {
-        //console.log("Selecione uma Seção de Cabo");
+function calcularQuedaDeTensao() {
+    const secaoRetaValor = Number(inputSecaoReta.value);
+    if (secaoRetaValor === 0) {
         return "Selecione uma Seção de Cabo";
     }
-    const h = Number(diametro_Condutor_.value);
-    const i = Number(distancia_Entre_Eixos_.value);
-    const j = Number(_gmd.value);
-    //console.log(a, b, c, d, e, f, g, h, i, j);
 
-    const resultado = MainFuncaoCalculoDeQueda(a, b, c, d, e, f, g, h, i, j);
-    //return "<p class='Resultado'>Queda de tensão de :<info>" + quedaDeTensaoPorcento(resultado, tensaoNominal.value).toFixed(2) + "%</info>"+" <br> Distância :<info>"+d+"</info> Km" + "<br>Corrente de Projeto de <info>: " +c+"</info> A";
-    return criarTabelaQuedaTensao(resultado,tensaoNominal.value,d,c);
+    const materialCondutorValor = String(selectMaterialCondutor.value);
+    const cosPhiValor = Number(inputCosPhi.value);
+    const correnteProjetoValor = Number(inputCorrenteProjeto.value);
+    const comprimentoCircuitoKm = Number(inputComprimentoCircuito.value) / 1000;
+    const numeroCondutoresCarregados = Number(selectNumeroCondutores.value.substring(0, 1));
+    const materialIsolacaoValor = String(selectMaterialIsolacao.value);
+    const diametroCondutorValor = Number(inputDiametroCondutor.value);
+    const distanciaEntreEixosValor = Number(inputDistanciaEntreEixos.value);
+    const gmdValor = Number(inputGmd.value);
+
+    const quedaTensaoVolts = MainFuncaoCalculoDeQueda(materialCondutorValor, cosPhiValor, correnteProjetoValor, comprimentoCircuitoKm, numeroCondutoresCarregados, materialIsolacaoValor, secaoRetaValor, diametroCondutorValor, distanciaEntreEixosValor, gmdValor);
+
+    return criarTabelaQuedaTensao(quedaTensaoVolts, inputTensaoNominal.value, comprimentoCircuitoKm, correnteProjetoValor);
 }
-
-
-function criarTabela(correnteProjeto, metodoInstalacao, materialCondutorSelecionado, materialIsolacao, numeroCondutores, correcaoTemp, localInstalacaoAmb,valorCorrecao, fatorDeCorrecao, result) {
-    let tabela = '<table>';
-    tabela += `<tr><th>Corrente de Projeto</th><th><info>${correnteProjeto}A</info></th></tr>`;
-    tabela += `<tr><th>Método de Instalação</th><th><info>${metodoInstalacao}</info></th></tr>`;
-    tabela += `<tr><th>Material Condutor</th><th><info>${materialCondutorSelecionado}</info></th></tr>`;
-    tabela += `<tr><th>Material de Isolação</th><th><info>${materialIsolacao}</info></th></tr>`;
-    tabela += `<tr><th>Número de Condutores Carregados</th><th><info>${numeroCondutores.substring(0, 1)}</info></th></tr>`;
-    tabela += `<tr><th>Para temperatura do <info>${localInstalacaoAmb}</info> de <info>${correcaoTemp}ºC</info></th><th><info>${valorCorrecao}</info></th></tr>`;
-    tabela += `<tr><th>Fator de agrupamento de circuitos</th><th><info>${fatorDeCorrecao}</info></th></tr>`;
-    tabela += `<tr><th>Seção reta do Condutor</th><th><info>${result}mm²</info></th></tr>`;
-    tabela += '</table>';
-    return tabela;
-  }
-
-function criarTabelaQuedaTensao (resultado,tensaoNominal,d,c) {
-    let tabela = '<table>';
-    tabela += `<tr><th>Queda de tensão </th><th><info>${quedaDeTensaoPorcento(resultado, tensaoNominal).toFixed(2)}%</info></th></tr>`;
-    tabela += `<tr><th>Distância</th><th><info>${d*1000} m</info></th></tr>`;
-    tabela += `<tr><th>Corrente de Projeto</th><th><info>${c}A</info></th></tr>`;   
-    tabela += '</table>';
-    return tabela; 
-}
-  
