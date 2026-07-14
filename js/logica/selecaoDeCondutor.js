@@ -31,13 +31,19 @@ export function retornalistaColuna(metodo, materialCondutor, materialIsolacao, n
 /**
  * Encontra a seção (mm²) do condutor cuja corrente admissível é a primeira
  * (menor) suficiente para a corrente de projeto informada.
- * @returns {string} seção do condutor em mm², ex.: "16"
+ * @returns {{secao: string, capacidadeAdmissivel: number}} seção em mm² (ex.: "35")
+ * e a corrente admissível tabelada para essa seção (sem nenhuma correção
+ * de temperatura/agrupamento) — o mesmo valor que se consulta diretamente
+ * numa tabela de fabricante/NBR5410, útil para conferência manual.
  */
 export function procuraCondutorCorrespondente(correnteProjeto, metodo, materialCondutor, materialIsolacao, numeroCondutoresModo) {
     const listaDeCorrentesAdmissiveis = retornalistaColuna(metodo, materialCondutor, materialIsolacao, numeroCondutoresModo);
     const listaDeSecoesValidas = retornalistaColuna("", materialCondutor, materialIsolacao, "s");
     const indice = retornaOPrimeiroValorMaior(Number(correnteProjeto), listaDeCorrentesAdmissiveis);
-    return listaDeSecoesValidas[indice];
+    return {
+        secao: listaDeSecoesValidas[indice],
+        capacidadeAdmissivel: Number(listaDeCorrentesAdmissiveis[indice])
+    };
 }
 
 export { indiceMetodosA_D, indiceMetodosE_G };

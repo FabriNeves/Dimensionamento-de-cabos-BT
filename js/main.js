@@ -8,8 +8,10 @@ import { correcaoDeTemperatura } from "./logica/correcaoTemperatura.js";
 import { MainFuncaoCalculoDeQueda, secoesRetasDisponiveis } from "./logica/quedaDeTensao.js";
 import { retornaDiametroDoCondutor } from "./logica/diametroCondutor.js";
 import { retornaOPrimeiroValorMaior_e } from "./logica/buscaBinaria.js";
+import { calcularGMD, calcularGMDSimetrica, calcularGMDLinha, calcularGMDGeral } from "./logica/gmd.js";
 import { opcoesPorMetodo, preencherOpcoesNumeroDeCondutores } from "./ui/opcoesNumeroDeCondutores.js";
-import { criarTabelaSecaoCondutor, criarTabelaQuedaTensao } from "./ui/tabelaResultados.js";
+import { preencherOpcoesSecaoReta } from "./ui/opcoesSecaoReta.js";
+import { criarTabelaCaboBase, criarTabelaCaboTemperatura, criarTabelaSecaoCondutor, criarTabelaQuedaTensao } from "./ui/tabelaResultados.js";
 
 // --- Campos do formulário: seleção de seção do condutor ---
 const inputCorrenteProjeto = document.querySelector("#correnteDeProjeto");
@@ -23,6 +25,10 @@ const selectReferenciaAgrupamento = document.querySelector("#ReferenciasAgrupame
 const selectNumeroDeCircuitos = document.querySelector("#numeroDeCircuitos");
 const botaoCalcularSecao = document.querySelector("#calcularGeral");
 const divResultadoSecao = document.querySelector(".resultado");
+const botaoSelecionarCabo = document.querySelector("#botaoSelecionarCabo");
+const divResultadoCaboBase = document.querySelector(".resultadoCaboBase");
+const botaoSelecionarCaboTemperatura = document.querySelector("#botaoSelecionarCaboTemperatura");
+const divResultadoCaboTemperatura = document.querySelector(".resultadoCaboTemperatura");
 
 // --- Campos do formulário: queda de tensão ---
 const inputSecaoReta = document.querySelector("#secaoReta_quedaDeTensao");
@@ -34,6 +40,91 @@ const inputCosPhi = document.querySelector("#cosPhi");
 const inputGmd = document.querySelector("#_gmd");
 const botaoCalcularQuedaTensao = document.querySelector("#botao3");
 const divResultadoQuedaTensao = document.querySelector(".resultado3");
+
+// A lista de seções disponíveis no select depende do material do condutor.
+preencherOpcoesSecaoReta(secoesRetasDisponiveis[selectMaterialCondutor.value], inputSecaoReta, 50);
+
+selectMaterialCondutor.onchange = function () {
+    const secoesDoNovoMaterial = secoesRetasDisponiveis[selectMaterialCondutor.value];
+    const secaoMaisProxima = retornaOPrimeiroValorMaior_e(Number(inputSecaoReta.value), secoesDoNovoMaterial);
+    preencherOpcoesSecaoReta(secoesDoNovoMaterial, inputSecaoReta, secaoMaisProxima);
+    inputDiametroCondutor.value = retornaDiametroDoCondutor(inputSecaoReta.value).toFixed(2); // valor aproximado
+};
+
+// O GMD é sempre recalculado a partir da distância entre eixos e da
+// disposição escolhida em "Número de condutores carregados" — nunca digitado
+// manualmente (ver js/logica/gmd.js).
+function recalcularGmd() {
+    inputGmd.value = calcularGMD(selectNumeroCondutores.value, Number(inputDistanciaEntreEixos.value)).toFixed(4);
+}
+recalcularGmd();
+
+selectNumeroCondutores.onchange = recalcularGmd;
+
+// --- Calculadora de GMD (widget à parte, não interfere no cálculo principal
+// até que "Usar este valor no cálculo" seja clicado). Nos modos simples
+// (trifólio/2 cabos/linha) ela usa direto o valor de "Distância entre
+// eixos" acima — não faz sentido pedir a mesma medida duas vezes. Só o
+// caso geral (triângulo irregular) tem campos próprios, pois não há como
+// reaproveitar um único valor de distância nesse caso. ---
+const selectGmdCalcDisposicao = document.querySelector("#gmdCalcDisposicao");
+const inputGmdCalcX = document.querySelector("#gmdCalcX");
+const inputGmdCalcY = document.querySelector("#gmdCalcY");
+const inputGmdCalcZ = document.querySelector("#gmdCalcZ");
+const notaGmdCalcSimples = document.querySelector("#gmdCalcNotaSimples");
+const divGmdCalcInputsXYZ = document.querySelector("#gmdCalcInputsXYZ");
+const infoGmdCalcResultado = document.querySelector("#gmdCalcResultado");
+const botaoUsarGmdCalculado = document.querySelector("#botaoUsarGmdCalculado");
+const diagramasGmdCalc = document.querySelectorAll(".gmd-diagrama");
+
+function calcularGmdDaCalculadora() {
+    const modo = selectGmdCalcDisposicao.value;
+    if (modo === "xyz") {
+        return calcularGMDGeral(Number(inputGmdCalcX.value), Number(inputGmdCalcY.value), Number(inputGmdCalcZ.value));
+    }
+    const distancia = Number(inputDistanciaEntreEixos.value);
+    if (modo === "linha") {
+        return calcularGMDLinha(distancia);
+    }
+    return calcularGMDSimetrica(distancia); // trifólio ou 2 cabos
+}
+
+function atualizarResultadoGmdCalculadora() {
+    infoGmdCalcResultado.textContent = `${calcularGmdDaCalculadora().toFixed(4)} mm`;
+}
+
+// Mostra o diagrama correspondente à disposição escolhida (um <svg> por
+// opção do select, todos com o id "gmdDiagrama-<valor da opção>").
+// Usa style.display em vez da propriedade "hidden" porque esta última não é
+// bem suportada em elementos <svg> em todos os navegadores.
+function atualizarDiagramaGmdCalculadora() {
+    diagramasGmdCalc.forEach((svg) => {
+        const ativo = svg.id === `gmdDiagrama-${selectGmdCalcDisposicao.value}`;
+        svg.style.display = ativo ? "block" : "none";
+    });
+}
+
+selectGmdCalcDisposicao.onchange = function () {
+    const ehCasoGeral = selectGmdCalcDisposicao.value === "xyz";
+    notaGmdCalcSimples.hidden = ehCasoGeral;
+    divGmdCalcInputsXYZ.hidden = !ehCasoGeral;
+    atualizarDiagramaGmdCalculadora();
+    atualizarResultadoGmdCalculadora();
+};
+[inputGmdCalcX, inputGmdCalcY, inputGmdCalcZ].forEach((elemento) => {
+    elemento.oninput = atualizarResultadoGmdCalculadora;
+});
+atualizarDiagramaGmdCalculadora();
+atualizarResultadoGmdCalculadora();
+
+inputDistanciaEntreEixos.onchange = function () {
+    recalcularGmd();
+    atualizarResultadoGmdCalculadora();
+};
+
+botaoUsarGmdCalculado.onclick = function () {
+    inputGmd.value = calcularGmdDaCalculadora().toFixed(4);
+};
 
 /**
  * Calcula a seção do condutor (mm²) a partir da corrente de projeto,
@@ -47,12 +138,28 @@ function calcularSecaoCabo(correnteProjetoAmpere) {
     const numeroCondutoresValor = selectNumeroCondutores.value;
 
     const fatorCorrecaoTemperatura = correcaoDeTemperatura(inputTemperatura.value * 1, selectLocalInstalacao.value, selectMaterialIsolacao.value);
+    const correnteAposTemperatura = correnteProjetoAmpere / fatorCorrecaoTemperatura;
+
     const fatorCorrecaoAgrupamento = tabelaAgrupamentoDeCircuitos[selectReferenciaAgrupamento.value][selectNumeroDeCircuitos.value - 1];
+    const correnteCorrigida = correnteAposTemperatura / fatorCorrecaoAgrupamento;
 
-    const correnteCorrigida = (correnteProjetoAmpere / fatorCorrecaoTemperatura) / fatorCorrecaoAgrupamento;
+    const { secao: secaoDoCondutor, capacidadeAdmissivel } = procuraCondutorCorrespondente(correnteCorrigida, metodoInstalacaoValor, materialCondutorValor, materialIsolacaoValor, numeroCondutoresValor);
 
-    const secaoDoCondutor = procuraCondutorCorrespondente(correnteCorrigida, metodoInstalacaoValor, materialCondutorValor, materialIsolacaoValor, numeroCondutoresValor);
-    const tabelaHtml = criarTabelaSecaoCondutor(correnteProjetoAmpere, metodoInstalacaoValor, materialCondutorValor, materialIsolacaoValor, numeroCondutoresValor, inputTemperatura.value, selectLocalInstalacao.value, fatorCorrecaoTemperatura, fatorCorrecaoAgrupamento, secaoDoCondutor);
+    const tabelaHtml = criarTabelaSecaoCondutor({
+        correnteProjeto: correnteProjetoAmpere,
+        metodoInstalacao: metodoInstalacaoValor,
+        materialCondutor: materialCondutorValor,
+        materialIsolacao: materialIsolacaoValor,
+        numeroCondutores: numeroCondutoresValor,
+        temperatura: inputTemperatura.value,
+        localInstalacao: selectLocalInstalacao.value,
+        fatorCorrecaoTemperatura,
+        correnteAposTemperatura,
+        fatorCorrecaoAgrupamento,
+        correnteCorrigida,
+        capacidadeAdmissivel,
+        secaoDoCondutor
+    });
 
     inputDiametroCondutor.value = retornaDiametroDoCondutor(secaoDoCondutor).toFixed(2); // valor aproximado
 
@@ -61,8 +168,35 @@ function calcularSecaoCabo(correnteProjetoAmpere) {
 
 botaoCalcularSecao.onclick = function () {
     const [secaoDoCondutor, tabelaHtml] = calcularSecaoCabo(inputCorrenteProjeto.value);
-    inputSecaoReta.value = secaoDoCondutor;
+    // A tabela de seção do condutor inclui seções menores que não existem na
+    // lista de seções da queda de tensão (ex.: 0,5mm²) — arredonda para cima.
+    inputSecaoReta.value = retornaOPrimeiroValorMaior_e(Number(secaoDoCondutor), secoesRetasDisponiveis[selectMaterialCondutor.value]);
     divResultadoSecao.innerHTML = tabelaHtml;
+};
+
+// Mostra qual cabo seria escolhido só pela corrente de projeto, método,
+// material, isolação e nº de condutores — antes de qualquer correção de
+// temperatura ou agrupamento (que serão aplicadas sobre esta capacidade).
+botaoSelecionarCabo.onclick = function () {
+    const metodoInstalacaoValor = selectMetodoInstalacao.value;
+    const materialCondutorValor = selectMaterialCondutor.value;
+    const materialIsolacaoValor = selectMaterialIsolacao.value;
+    const numeroCondutoresValor = selectNumeroCondutores.value;
+
+    const { secao, capacidadeAdmissivel } = procuraCondutorCorrespondente(inputCorrenteProjeto.value, metodoInstalacaoValor, materialCondutorValor, materialIsolacaoValor, numeroCondutoresValor);
+
+    divResultadoCaboBase.innerHTML = criarTabelaCaboBase(inputCorrenteProjeto.value, metodoInstalacaoValor, materialCondutorValor, materialIsolacaoValor, numeroCondutoresValor, secao, capacidadeAdmissivel);
+};
+
+// Mostra qual cabo seria escolhido já com a correção de temperatura
+// aplicada, mas ainda sem o fator de agrupamento de circuitos.
+botaoSelecionarCaboTemperatura.onclick = function () {
+    const fatorCorrecaoTemperatura = correcaoDeTemperatura(inputTemperatura.value * 1, selectLocalInstalacao.value, selectMaterialIsolacao.value);
+    const correnteAposTemperatura = inputCorrenteProjeto.value / fatorCorrecaoTemperatura;
+
+    const { secao, capacidadeAdmissivel } = procuraCondutorCorrespondente(correnteAposTemperatura, selectMetodoInstalacao.value, selectMaterialCondutor.value, selectMaterialIsolacao.value, selectNumeroCondutores.value);
+
+    divResultadoCaboTemperatura.innerHTML = criarTabelaCaboTemperatura(inputCorrenteProjeto.value, inputTemperatura.value, selectLocalInstalacao.value, fatorCorrecaoTemperatura, correnteAposTemperatura, secao, capacidadeAdmissivel);
 };
 
 // Ao trocar o método de instalação, as opções de "número de condutores
@@ -79,11 +213,11 @@ selectMetodoInstalacao.onchange = function () {
         preencherOpcoesNumeroDeCondutores(opcoesPorMetodo.G, selectNumeroCondutores);
     }
     selectNumeroCondutores = document.querySelector("#nCondutores");
+    selectNumeroCondutores.onchange = recalcularGmd;
+    recalcularGmd(); // a disposição pode ter mudado silenciosamente (sem disparar "change")
 };
 
 botaoCalcularQuedaTensao.onclick = function () {
-    const secaoMaisProxima = retornaOPrimeiroValorMaior_e(Number(inputSecaoReta.value), secoesRetasDisponiveis[selectMaterialCondutor.value]);
-    inputSecaoReta.value = secaoMaisProxima === false ? 0.5 : secaoMaisProxima;
     divResultadoQuedaTensao.innerHTML = calcularQuedaDeTensao();
 };
 
