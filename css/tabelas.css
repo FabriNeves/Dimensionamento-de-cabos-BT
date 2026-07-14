@@ -1,64 +1,57 @@
-body {
-    width: 1000px;
-    margin: 0 auto;
-    font-size: 20px; /* altere o valor conforme necessário */
-    font-family: "Helvetica Neue", sans-serif; /* altere a fonte conforme necessário */
-  }
-  .button {
-    display: inline-block;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    text-align: center;
-    font-size: 16px;
-    padding: 10px 24px;
-    text-decoration: none;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .button:hover {
-    background-color: #3e8e41;
-  }
-  
-  
-  
-  table {
-    border-collapse: collapse;
+/* Estilos específicos da tabela de métodos de instalação (tabelaMetodos.html).
+   Os tokens de cor/espaçamento (--color-*, --radius-*) vêm de css/style.css,
+   que deve ser carregado antes deste arquivo. */
+
+.table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.tabela-metodos {
     width: 100%;
-    margin-bottom: 1rem;
-  }
-  
-  table,
-  th,
-  td {
-    border: 1px solid #d2d2d2;
-  }
-  
-  th,
-  td {
-    padding: 1rem;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.tabela-metodos th,
+.tabela-metodos td {
+    border: 1px solid var(--color-border);
+    padding: 12px 16px;
     text-align: left;
-  }
-  
-  th {
-    background-color: #f8f8f8;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  @media screen and (max-width: 767px) {
-    table {
-      display: block;
-      overflow-x: auto;
-      white-space: nowrap;
+    vertical-align: top;
+}
+
+.tabela-metodos thead th {
+    background: var(--color-primary);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.tabela-metodos tbody tr:nth-child(even) {
+    background: var(--color-bg);
+}
+
+.tabela-metodos tbody tr:hover {
+    background: rgba(47, 128, 196, 0.08);
+}
+
+.tabela-metodos td:first-child {
+    font-weight: 700;
+    color: var(--color-primary);
+    white-space: nowrap;
+}
+
+.tabela-metodos td:last-child {
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 767px) {
+    .tabela-metodos td {
+        min-width: 160px;
+        white-space: normal;
     }
-  
-    td {
-      min-width: 100px;
-    }
-  }
-  
+}

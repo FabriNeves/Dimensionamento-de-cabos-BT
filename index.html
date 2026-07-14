@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -7,249 +7,339 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./imagens/icone2.ico">
     <title>Cálculo de Cabos de Baixa tensão</title>
 </head>
 
 <body>
-    <!-- <header>
-        <div class="containerHeader">
-            <div class="containerLogo">
-                <h1><img src="./imagens/logo.png"></h1>
-                <span>Dimensionador de Cabos BT</span>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="">Saiba mais</a></li>
-                    <li><a href="">Contato</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header> -->
-    <div class="header">
-        <img class="logo" src="./imagens/logo4.png" alt="Logo">
-        <div class="navegacao">
+    <header class="app-header">
+        <div class="app-header__brand">
+            <img class="app-header__logo" src="./imagens/logo4.png" alt="Logo">
             <div>
-                <a href="index.html">Home</a>
-            </div>
-            <div>
-                <a href="">Saiba mais</a>
-            </div>
-            <div>
-                <a href="">Contato</a>
-            </div>
-            <div>
-                <a href="">Sobre Nós</a>
+                <h1 class="app-header__title">Dimensionamento de Cabos BT</h1>
+                <p class="app-header__subtitle">Seleção de condutores e cálculo de queda de tensão conforme a NBR 5410</p>
             </div>
         </div>
-    </div>
-    <main>
-        <div class="part1">
-            <h2>Descrição</h2>
-            <p>Pagina feita em HTML e Javascript visa automatizar as escolhas de condutores de baixa tensão
-                baseados na NBR5410</p>
-            <h2>Corrente de Projeto</h2>
-            <!-- <p>Corrente de projeto (In) é calculada considerando apenas a potência instalada.</p> -->
-            <div class="containerCorrenteProjeto">
-                <label for="correnteDeProjeto">In = </label>
-                <input type="number" id="correnteDeProjeto" min="0" max="1000" value="100" class="input-padrao">
-                <label for="correnteDeProjeto"> A </label>
-            </div>
-            <h2>Método de instalação</h2>
-            <p>Para saber mais sobre metôdos de instalação(tabela 33). <a target="_blank"
-                    href="./tabelaMetodos.html">Clique aqui</a></p>
-            <fieldset>
-                <select name="Metodo" id="selecaoMetodo">
-                    <option value="A1">A1</option>
-                    <option value="A2">A2</option>
-                    <option value="B1">B1</option>
-                    <option value="B2">B2</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
-                </select>
+    </header>
 
-                <!--Descrição do metodo -->
-            </fieldset>
-            <h2>Material Condutor</h2>
-            <!-- <p>A resistividade do alumínio é 65% mais alta que a do cobre.Por consequência,
-            para conduzir a mesma corrente elétrica,um cabo com condutor de alumínio vai
-            utilizar uma seção nominal maior do que a de um cabo de cobre.
-            Por outro lado, o alumínio é cerca de três vezes mais leve que o cobre por unidade de massa.</p> -->
-            <fieldset>
-                <select name="material" id="selecaoMaterial">
-                    <option value="COBRE">Cobre</option>
-                    <option value="AL">Alumínio</option>
-                </select>
-            </fieldset>
-            <h2>Isolação</h2>
-            <!-- <p> O PVC é um material termoplástico, pois amolece quando aquecido mas não perde suas características físicas,
-            suportando temperatura de operação normal de até 70 °C no condutor.<br>
-            O XLPE (polietileno reticulado) e o HEPR (borracha etileno-propileno)
-            são materiais que sofreram um processo de vulcanização (reticulação),
-            tornando-se termofixos. Não amolecem com o calor e suportam temperaturas de operação mais elevadas, de 90
-            °C.</p> -->
-            <fieldset>
-                <select name="isolacao" id="selecaoIsolacao">
-                    <option value="EPR"> EPR/XLPE</option>
-                    <option value="PVC"> PVC </option>
-                </select>
-            </fieldset>
-        </div>
-        <h2>Número de condutores carregados</h2>
-        <div class="tipoDeInstalacao">
-            <fieldset>
-                <!-- <p>
-                    O número de condutores carregados a ser considerado é o dos
-                    condutores efetivamente percorridos por corrente. Nos circuitos trifásicos com neutro, quando puder
-                    ser
-                    admitido o equilíbrio das correntes nos condutores fase e quando não for prevista a circulação de
-                    correntes
-                    harmônicas no condutor neutro, este não deve ser computado, considerando-se, portanto, para o
-                    circuito, 3
-                    condutores carregados.
-                </p> -->
-                <select name="nCondutores" id="nCondutores">
-                    <option value="3n">A - circuito trifásico sem neutro = 3 condutores carregados</option>
-                    <option value="3n">B - circuito trifásico com neutro = 4 condutores carregados</option>
-                    <option value="2n">C - circuito monofásico a 2 condutores = 2 condutores carregados </option>
-                    <option value="3n">D - circuito monofásico a 3 condutores = 3 condutores carregados</option>
-                    <option value="2n">E - circuito bifásico a 2 condutores = 2 condutores carregados</option>
-                    <option value="3n">F - circuito bifásico a 3 condutores = 3 condutores carregados</option>
-                </select>
-            </fieldset>
-        </div>
-        <h2>Correção de Temperatura</h2>
-        <div class="conteinerCorrecaoTemp">
-            <label for="correcaoTemp">Temperatura </label>
-            <select name="localInsta" id="localInsta">
-                <legend>Temperatura Ambiente ou do Solo ?</legend>
-                <option value="ambiente"> Ambiente </option>
-                <option value="solo"> do Solo </option>
-            </select>
-            <input type="number" id="correcaoTemp" min="10" max="50" value="20" class="input-padrao">
-            <label for="correcaoTemp">°C</label>
-        </div>
-        <div class="conteinerAgrupamentoCircuitos">
-            <h2>Agrupamento de circuitos </h2>
-            <p class="aviso">Existem outros metodos de calculo de agrupamento de circuitos descritos na NBR5410</p>
-            <fieldset>
-                <label for="ReferenciasAgrupamentoCircuitos" class="especialLabel">Selecione referência :</label>
-                <select name="ReferenciaAgrupamentoCircuitos" id="ReferenciasAgrupamentoCircuitos">
-                    <option value="Ref1">Em feixe: ao ar livre ou sobre superfície; embutidos; em conduto fechado |
-                        Métodos
-                        A até F</option>
-                    <option value="Ref2">Camada única sobre parede, piso ou em bandeja não perfurada ou prateleira |
-                        Método
-                        C</option>
-                    <option value="Ref3">Camada única no teto | Método C</option>
-                    <option value="Ref4">Camada única em bandeja perfurada | Método F</option>
-                    <option value="Ref5">Camada única sobre leito, suporte, etc.| Método F</option>
-                </select>
-            </fieldset>
-            <br>
-            <div class="containerNumeroDeCirc">
-                <label for="numeroDeCircuitos">Numero de Circuitos : </label>
-                <select id="numeroDeCircuitos">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9 a 11</option>
-                    <option value="10">12 a 15</option>
-                    <option value="11">16 a 19</option>
-                    <option value="12">>=20</option>
-                </select>
-            </div>
-            <button id="calcularGeral">Calcular</button>
-            <p class="resultado"></p>
-            <p class="aviso">* Observar Seção Mínima dos Condutores</p>
-        </div>
-        <div class="containerQuedaDetensao">
+    <main class="page">
+        <section class="card">
+            <header class="card__header">
+                <h2 class="card__title"><span class="card__step">1</span> Parâmetros do Circuito</h2>
+            </header>
 
-            <h2> Cálculo de Queda de Tensão </h2>
-
-            <div class="conteinerLabelQDT">
-
-                <label for="secaoReta_quedaDeTensao" class="labelTitulo">Seção reta :</label>
-                <div>
-                    <input type="number" id="secaoReta_quedaDeTensao" value="50" class="input-padrao" min="0.5"
-                        max="630">
-                    <label for="secaoReta_quedaDeTensao">mm²</label>
+            <div class="field-grid">
+                <div class="field">
+                    <label for="correnteDeProjeto">Corrente de projeto (In)</label>
+                    <div class="input-unit">
+                        <input type="number" id="correnteDeProjeto" min="0" max="1000" value="100">
+                        <span>A</span>
+                    </div>
                 </div>
 
-                <label for="tensaoNominal" class="labelTitulo">Tensão nominal da instalação :</label>
-                <div>
-                    <input type="number" id="tensaoNominal" value="220" class="input-padrao" min="1.5" max="1000">
-                    <label for="tensaoNominal">V</label>
+                <div class="field">
+                    <label for="selecaoMetodo">Método de instalação</label>
+                    <select name="Metodo" id="selecaoMetodo">
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                    </select>
+                    <a class="field__hint" target="_blank" href="./tabelaMetodos.html">Ver tabela de métodos (Tabela 33) →</a>
                 </div>
 
-                <label for="comprimento_Circuito" class="labelTitulo">Comprimento circuito :</label>
-                <div>
-                    <input type="number" id="comprimento_Circuito" value="100" class="input-padrao">
-                    <label for="comprimento_Circuito">(Metros)</label>
+                <div class="field">
+                    <label for="selecaoMaterial">Material condutor</label>
+                    <select name="material" id="selecaoMaterial">
+                        <option value="COBRE">Cobre</option>
+                        <option value="AL">Alumínio</option>
+                    </select>
                 </div>
 
-                <label for="diametro_Condutor" class="labelTitulo">Diâmetro do condutor :</label>
-                <div>
-                    <input type="number" id="diametro_Condutor" value="9.2" class="input-padrao">
-                    <label for="diametro_Condutor">(mm)</label>
+                <div class="field">
+                    <label for="selecaoIsolacao">Isolação</label>
+                    <select name="isolacao" id="selecaoIsolacao">
+                        <option value="EPR">EPR/XLPE</option>
+                        <option value="PVC">PVC</option>
+                    </select>
+                </div>
+
+                <div class="field field--wide">
+                    <label for="nCondutores">Número de condutores carregados</label>
+                    <select name="nCondutores" id="nCondutores">
+                        <option value="3n">A - circuito trifásico sem neutro = 3 condutores carregados</option>
+                        <option value="3n">B - circuito trifásico com neutro = 4 condutores carregados</option>
+                        <option value="2n">C - circuito monofásico a 2 condutores = 2 condutores carregados</option>
+                        <option value="3n">D - circuito monofásico a 3 condutores = 3 condutores carregados</option>
+                        <option value="2n">E - circuito bifásico a 2 condutores = 2 condutores carregados</option>
+                        <option value="3n">F - circuito bifásico a 3 condutores = 3 condutores carregados</option>
+                    </select>
                 </div>
             </div>
-            <p class="aviso">* Diâmetro gerado automaticamente , para mais precisão consultar a tabela de cabos
-                do
-                fabricante. </p>
-            <div class="conteinerLabelQDT">
-                <label for="distancia_Entre_Eixos" class="labelTitulo">Distância entre eixos :</label>
-                <div>
-                    <input type="number" id="distancia_Entre_Eixos" value="20" class="input-padrao">
-                    <label for="distancia_Entre_Eixos">(mm)</label>
+
+            <div class="card__actions">
+                <button id="botaoSelecionarCabo" class="btn btn--secondary">Ver Cabo Selecionado (sem correções)</button>
+            </div>
+            <div class="resultadoCaboBase result-box"></div>
+            <p class="notice">* É sobre a capacidade deste cabo que os fatores de correção de temperatura e de agrupamento (próximos passos) serão aplicados.</p>
+        </section>
+
+        <section class="card">
+            <header class="card__header">
+                <h2 class="card__title"><span class="card__step">2</span> Correção de Temperatura</h2>
+            </header>
+
+            <div class="field-grid">
+                <div class="field">
+                    <label for="localInsta">Referência de temperatura</label>
+                    <select name="localInsta" id="localInsta">
+                        <option value="ambiente">Ambiente</option>
+                        <option value="solo">Do solo</option>
+                    </select>
                 </div>
-                <label for="cosPhi" class="labelTitulo">Cos φ :</label>
-
-                <input type="number" id="cosPhi" value="0.95" class="input-padrao">
+                <div class="field">
+                    <label for="correcaoTemp">Temperatura</label>
+                    <div class="input-unit">
+                        <input type="number" id="correcaoTemp" min="10" max="50" value="20">
+                        <span>°C</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="subConteinerQuedaDeTensao">
-                <p>Métodos de calculo de GMD</p>
-                <p>Valor da raíz cubíca ³√2 = 1,2599210</p>
-                <div class="imagem">
-                    <img class="MetodosGMD" src="./imagens/GMDMetodos.png" >
+            <div class="card__actions">
+                <button id="botaoSelecionarCaboTemperatura" class="btn btn--secondary">Ver Cabo com Correção de Temperatura</button>
+            </div>
+            <div class="resultadoCaboTemperatura result-box"></div>
+            <p class="notice">* É sobre a capacidade deste cabo que o fator de agrupamento (próximo passo) será aplicado.</p>
+        </section>
+
+        <section class="card">
+            <header class="card__header">
+                <h2 class="card__title"><span class="card__step">3</span> Agrupamento de Circuitos</h2>
+            </header>
+            <p class="notice">Existem outros métodos de cálculo de agrupamento de circuitos descritos na NBR 5410.</p>
+
+            <div class="field-grid">
+                <div class="field field--wide">
+                    <label for="ReferenciasAgrupamentoCircuitos">Referência de disposição</label>
+                    <select name="ReferenciaAgrupamentoCircuitos" id="ReferenciasAgrupamentoCircuitos">
+                        <option value="Ref1">Em feixe: ao ar livre ou sobre superfície; embutidos; em conduto fechado | Métodos A até F</option>
+                        <option value="Ref2">Camada única sobre parede, piso ou em bandeja não perfurada ou prateleira | Método C</option>
+                        <option value="Ref3">Camada única no teto | Método C</option>
+                        <option value="Ref4">Camada única em bandeja perfurada | Método F</option>
+                        <option value="Ref5">Camada única sobre leito, suporte, etc. | Método F</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="numeroDeCircuitos">Número de circuitos</label>
+                    <select id="numeroDeCircuitos">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9 a 11</option>
+                        <option value="10">12 a 15</option>
+                        <option value="11">16 a 19</option>
+                        <option value="12">&gt;=20</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card__actions">
+                <button id="calcularGeral" class="btn btn--primary">Calcular Seção do Condutor</button>
+            </div>
+            <div class="resultado result-box"></div>
+        </section>
+
+        <section class="card">
+            <header class="card__header">
+                <h2 class="card__title"><span class="card__step">4</span> Cálculo de Queda de Tensão</h2>
+            </header>
+
+            <div class="field-grid">
+                <div class="field">
+                    <label for="secaoReta_quedaDeTensao">Seção reta</label>
+                    <select id="secaoReta_quedaDeTensao">
+                        <!-- opções preenchidas via JS conforme o material condutor selecionado -->
+                    </select>
                 </div>
 
-                <p class="aviso"> * Deve ser usado o mesmo valor utilizado em "Distância entre eixos".<br>Valor
-                    padrão
-                    para 20mm<br>
-                    Referência :<br> Quadro geral até ponto de entrega : 5% <br> Circuitos terminais : 4% <br>
-                    Subestação e grupo geradores : 7%<br>
-                    Caso não atingir os valores estipulados aumentar a seção do condutor.
+                <div class="field">
+                    <label for="tensaoNominal">Tensão nominal da instalação</label>
+                    <div class="input-unit">
+                        <input type="number" id="tensaoNominal" value="220" min="1.5" max="1000">
+                        <span>V</span>
+                    </div>
+                </div>
 
-                </p>
-            </div>
-            <div class="conteinerLabelQDT">
-                <label for="_gmd" class="labelTitulo">GMD</label>
+                <div class="field">
+                    <label for="comprimento_Circuito">Comprimento do circuito</label>
+                    <div class="input-unit">
+                        <input type="number" id="comprimento_Circuito" value="100">
+                        <span>m</span>
+                    </div>
+                </div>
 
-                <input type="number" id="_gmd" value="25.1984" class="input-padrao">
+                <div class="field">
+                    <label for="diametro_Condutor">Diâmetro do condutor</label>
+                    <div class="input-unit">
+                        <input type="number" id="diametro_Condutor" value="9.2">
+                        <span>mm</span>
+                    </div>
+                </div>
             </div>
-            <button id="botao3">Calcular Δv%</button>
-            <p class="resultado3">
+            <p class="notice">* Diâmetro gerado automaticamente; para mais precisão, consulte a tabela de cabos do fabricante.</p>
+
+            <div class="field-grid">
+                <div class="field">
+                    <label for="distancia_Entre_Eixos">Distância entre eixos</label>
+                    <div class="input-unit">
+                        <input type="number" id="distancia_Entre_Eixos" value="20">
+                        <span>mm</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="cosPhi">Cos φ</label>
+                    <input type="number" id="cosPhi" value="0.95">
+                </div>
+            </div>
+
+            <div class="gmd-calculator">
+                <h3 class="gmd-calculator__title">Calculadora de GMD</h3>
+                <p class="notice">Escolha a disposição dos cabos para calcular o GMD manualmente — útil para conferir o valor automático ou para o caso geral (triângulo com distâncias diferentes).</p>
+
+                <div class="field">
+                    <label for="gmdCalcDisposicao">Disposição dos condutores</label>
+                    <select id="gmdCalcDisposicao">
+                        <option value="trifolio">Trifólio (3 cabos em triângulo equilátero)</option>
+                        <option value="2cabos">2 cabos lado a lado</option>
+                        <option value="linha">3 cabos em linha (mesma distância entre vizinhos)</option>
+                        <option value="xyz">Triângulo irregular (3 distâncias diferentes)</option>
+                    </select>
+                </div>
+
+                <div class="gmd-diagrama-container">
+                    <svg class="gmd-diagrama" id="gmdDiagrama-trifolio" viewBox="0 0 180 110" aria-hidden="true">
+                        <line x1="90" y1="26" x2="66" y2="68" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <line x1="90" y1="26" x2="114" y2="68" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <line x1="66" y1="68" x2="114" y2="68" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <text x="72" y="45" font-size="10">D</text>
+                        <text x="102" y="45" font-size="10">D</text>
+                        <text x="84" y="82" font-size="10">D</text>
+                        <circle cx="90" cy="26" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="90" cy="26" r="4" fill="currentColor"/>
+                        <circle cx="66" cy="68" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="66" cy="68" r="4" fill="currentColor"/>
+                        <circle cx="114" cy="68" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="114" cy="68" r="4" fill="currentColor"/>
+                        <text x="80" y="102" font-size="11" class="gmd-diagrama__formula">GMD = D</text>
+                    </svg>
+                    <svg class="gmd-diagrama" id="gmdDiagrama-2cabos" viewBox="0 0 180 110" aria-hidden="true">
+                        <line x1="66" y1="50" x2="114" y2="50" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <text x="84" y="42" font-size="10">D</text>
+                        <circle cx="66" cy="50" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="66" cy="50" r="4" fill="currentColor"/>
+                        <circle cx="114" cy="50" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="114" cy="50" r="4" fill="currentColor"/>
+                        <text x="80" y="90" font-size="11" class="gmd-diagrama__formula">GMD = D</text>
+                    </svg>
+                    <svg class="gmd-diagrama" id="gmdDiagrama-linha" viewBox="0 0 180 110" aria-hidden="true">
+                        <line x1="40" y1="50" x2="90" y2="50" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <line x1="90" y1="50" x2="140" y2="50" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <text x="58" y="42" font-size="10">D</text>
+                        <text x="108" y="42" font-size="10">D</text>
+                        <circle cx="40" cy="50" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="40" cy="50" r="4" fill="currentColor"/>
+                        <circle cx="90" cy="50" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="90" cy="50" r="4" fill="currentColor"/>
+                        <circle cx="140" cy="50" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="140" cy="50" r="4" fill="currentColor"/>
+                        <text x="62" y="90" font-size="11" class="gmd-diagrama__formula">GMD = D · ³√2</text>
+                    </svg>
+                    <svg class="gmd-diagrama" id="gmdDiagrama-xyz" viewBox="0 0 180 110" aria-hidden="true">
+                        <line x1="45" y1="75" x2="125" y2="75" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <line x1="45" y1="75" x2="95" y2="24" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <line x1="125" y1="75" x2="95" y2="24" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <text x="78" y="90" font-size="10">x</text>
+                        <text x="60" y="52" font-size="10">y</text>
+                        <text x="112" y="52" font-size="10">z</text>
+                        <circle cx="45" cy="75" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="45" cy="75" r="4" fill="currentColor"/>
+                        <circle cx="125" cy="75" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="125" cy="75" r="4" fill="currentColor"/>
+                        <circle cx="95" cy="24" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="95" cy="24" r="4" fill="currentColor"/>
+                        <text x="48" y="102" font-size="11" class="gmd-diagrama__formula">GMD = ³√(x·y·z)</text>
+                    </svg>
+                </div>
+
+                <p class="notice" id="gmdCalcNotaSimples">Usa o valor de "Distância entre eixos" definido acima.</p>
+
+                <div class="field-grid" id="gmdCalcInputsXYZ" hidden>
+                    <div class="field">
+                        <label for="gmdCalcX">Distância x</label>
+                        <div class="input-unit">
+                            <input type="number" id="gmdCalcX" value="20">
+                            <span>mm</span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="gmdCalcY">Distância y</label>
+                        <div class="input-unit">
+                            <input type="number" id="gmdCalcY" value="20">
+                            <span>mm</span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="gmdCalcZ">Distância z</label>
+                        <div class="input-unit">
+                            <input type="number" id="gmdCalcZ" value="20">
+                            <span>mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="gmd-calculator__resultado">GMD calculado: <info id="gmdCalcResultado">25.1984 mm</info></p>
+
+                <button id="botaoUsarGmdCalculado" class="btn btn--secondary btn--inline" type="button">Usar este valor no cálculo</button>
+            </div>
+
+            <p class="notice notice--warning">
+                * O GMD é calculado automaticamente a partir da "Distância entre eixos" e da disposição escolhida em "Número de condutores carregados".<br>
+                Referência: Quadro geral até ponto de entrega 5% · Circuitos terminais 4% · Subestação e grupo geradores 7%.<br>
+                Caso não atinja os valores estipulados, aumente a seção do condutor.
             </p>
-        </div>
+
+            <div class="field field--wide">
+                <label for="_gmd">GMD (calculado automaticamente)</label>
+                <div class="input-unit">
+                    <input type="number" id="_gmd" value="25.1984" readonly>
+                    <span>mm</span>
+                </div>
+            </div>
+
+            <div class="card__actions">
+                <button id="botao3" class="btn btn--primary">Calcular Δv%</button>
+            </div>
+            <div class="resultado3 result-box"></div>
+        </section>
     </main>
 
     <script type="module" src="./js/main.js"></script>
-    <footer>
-        <p></p>
-    </footer>
 
+    <footer class="app-footer">
+        <p>Feito por Fabricio R. Neves Eng. Eletricista.</p>
+    </footer>
 </body>
 
 </html>
